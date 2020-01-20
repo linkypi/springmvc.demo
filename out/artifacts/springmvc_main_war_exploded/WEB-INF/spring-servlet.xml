@@ -7,8 +7,8 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
-
-    <mvc:annotation-driven>
+    <mvc:annotation-driven />
+<!--    <mvc:annotation-driven>-->
 <!--        <mvc:message-converters>-->
 <!--            <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>-->
 <!--            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>-->
@@ -25,8 +25,20 @@
 <!--                </property>-->
 <!--            </bean>-->
 <!--        </mvc:message-converters>-->
-    </mvc:annotation-driven>
-    <context:component-scan base-package="com.lynch.test"></context:component-scan>
+<!--    </mvc:annotation-driven>-->
+    <mvc:interceptors>
+        <!--配置自定义拦截器,拦截所有资源-->
+        <bean class="com.lynch.test.MyInterceptor"></bean>
 
+        <!--拦截指定资源-->
+        <mvc:interceptor>
+            <mvc:mapping path="/*"/>
+            <bean class="com.lynch.test.MyInterceptor"></bean>
+        </mvc:interceptor>
+
+<!--        <bean id="changeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"></bean>-->
+    </mvc:interceptors>
+
+    <context:component-scan base-package="com.lynch.test"></context:component-scan>
     <bean id="student" class="com.lynch.test.model.Student"></bean>
 </beans>
